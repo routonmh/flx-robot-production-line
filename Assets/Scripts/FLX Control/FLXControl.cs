@@ -17,14 +17,14 @@ public class FLXControl : MonoBehaviour {
     public float ShoulderForce;
     // add target velocities once controlled;     
 
-    float shoulder_motor_target_velocity = 0f;
-    float elbow_motor_target_velocity = 0f;     
+    public float ShoulderTargetVelocity;
+    public float ElbowTargetVelocity; 
 
     Rigidbody shoulder_rigid_body;
     Rigidbody elbow_rigid_body;
 
     HingeJoint shoulder_hinge_joint;
-    HingeJoint elbow_hinge_joint;   
+    HingeJoint elbow_hinge_joint;    
 
     void Start()
     {
@@ -63,31 +63,31 @@ public class FLXControl : MonoBehaviour {
         if (Input.GetKey(KeyCode.Q))
         {
             
-            moveElbow(elbow_motor_target_velocity);
+            moveElbow(-ElbowTargetVelocity);
         }       
         else if (Input.GetKey(KeyCode.E))
         {
             
-            moveElbow(elbow_motor_target_velocity);
+            moveElbow(ElbowTargetVelocity);
         }
         else
         {
-            lockElbow();
+            moveElbow(0);
         }
-      
+
         if (Input.GetKey(KeyCode.A))
         {
             
-            moveShoulder(shoulder_motor_target_velocity);
+            moveShoulder(-ShoulderTargetVelocity);
         }       
         else if (Input.GetKey(KeyCode.D))
         {
             
-            moveShoulder(shoulder_motor_target_velocity);
+            moveShoulder(ShoulderTargetVelocity);
         }
         else
         {
-            lockShoulder(); 
+            moveShoulder(0); 
         }
 
 
@@ -120,6 +120,17 @@ public class FLXControl : MonoBehaviour {
         {
             print("4th axis movement");
         }
+
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartCoroutine("MoveElbowAngle", 30f); 
+
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            StartCoroutine("MoveElbowAngle", -50f); 
+        }
     }
 
     void moveElbow(float target_velocity)
@@ -136,16 +147,37 @@ public class FLXControl : MonoBehaviour {
         shoulder_hinge_joint.motor = motor;
     }
 
-    void lockElbow()
+    public void MoveShoulderAngle(float angle)
     {
-        print("Locking elbow."); 
-        moveElbow(0);        
-    }
-
-    void lockShoulder()
-    {
-        print("Locking shoulder.");         
-        moveShoulder(0); 
         
     }
+
+    public IEnumerator MoveElbowAngle(float angle)
+    {
+        float elbow_angle = Elbow.transform.position.z; 
+        float tolerance = 1f; // within 1 degree; 
+
+        float diff = angle - elbow_angle; 
+        while (diff > tolerance)
+        {
+            elbow_angle = Elbow.transform.position.z;
+            diff = elbow_angle - angle; 
+            print("diff: " + diff); 
+
+            if (diff < 0)
+            {
+                moveElbow(ElbowTargetVelocity);
+            }
+            if (diff > 0)
+            {
+                moveElbow(-ElbowTargetVelocity);
+            }
+
+            
+            yield return new WaitForSeconds(0.1f);
+            moveElbow(0);
+        }
+        StopCoroutine("MoveElbowAngle"); 
+    }
+   
 }
