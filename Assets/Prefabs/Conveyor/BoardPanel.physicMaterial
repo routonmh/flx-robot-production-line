@@ -6,8 +6,8 @@ PhysicMaterial:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: BoardPanel
-  dynamicFriction: 1e+19
-  staticFriction: 1e+12
+  dynamicFriction: 10
+  staticFriction: 10
   bounciness: 0
   frictionCombine: 3
   bounceCombine: 3

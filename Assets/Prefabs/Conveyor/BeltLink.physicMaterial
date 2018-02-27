@@ -8,6 +8,6 @@ PhysicMaterial:
   m_Name: BeltLink
   dynamicFriction: 10
   staticFriction: 10
-  bounciness: 1
+  bounciness: 0
   frictionCombine: 0
   bounceCombine: 0

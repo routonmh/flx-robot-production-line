@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RollUnitAction : MonoBehaviour {
+public class RotateRoller : MonoBehaviour {
 
-    public float RollRate; 
+    public float RollRate;
 
 	void Update()
     {
         transform.Rotate(0, 0, RollRate * Time.deltaTime); 
     }
 }
-    

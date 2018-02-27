@@ -47,9 +47,7 @@ public class JointMovement : MonoBehaviour {
 
         if (Mathf.Abs(shoulder_angle_diff) < AngleTolerance)
         {
-            //print("Shoulder angle is within range.");
-
-            
+            //print("Shoulder angle is within range.");            
 
             controller.StopMovingShoulder();
         }

@@ -7,6 +7,7 @@ TagManager:
   - FLXARMBOT
   - BeltLink
   - RollerUnit
+  - BoardUnit
   layers:
   - Default
   - TransparentFX
